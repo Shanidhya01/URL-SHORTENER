@@ -1,0 +1,71 @@
+#main-wrapper {
+  padding-inline: 0.5rem;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+}
+
+.text-shadow {
+  text-shadow: 0 0 0.25rem rgb(24, 24, 24), 0 2px 8px rgba(0,0,0,0.15);
+}
+
+.dev-signature {
+  transition: 0.3s linear all;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+.dev-signature:hover {
+  color: springgreen;
+  background: linear-gradient(90deg, #0ea5e9 0%, #38bdf8 100%);
+  box-shadow: 0 2px 8px rgba(0,255,127,0.15);
+}
+
+.copied-message, .deleted-message {
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  overflow-x: auto;
+  font-size: 1rem;
+  font-weight: 500;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+#submit-btn {
+  border-top-right-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(14,165,233,0.15);
+}
+
+#table {
+  table-layout: fixed;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  background: linear-gradient(90deg, #1e293b 0%, #0f172a 100%);
+}
+
+input[type="text"] {
+  font-size: 1rem;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  transition: box-shadow 0.2s;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+/*---------- MEDIA QUERIES ----------*/
+@media all and (max-width: 575px) {
+  .form-wrapper {
+    padding: 2rem 1rem;
+  }
+}
+@media all and (max-width: 991px) {
+  #table {
+    table-layout: auto;
+  }
+}
+@media all and (min-width: 768px) {
+  #main-wrapper {
+    padding-inline: 0.5rem;
+  }
+}
+
+/*# sourceMappingURL=App.css.map */
