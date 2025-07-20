@@ -1,1 +1,1 @@
-export const serverUrl = "https://url-shortener-bh0g.onrender.com/api";
+export const serverUrl = `${import.meta.env.VITE_URL}/api`;
