@@ -1,5 +1,5 @@
 import express from 'express'
-import { getAllUrl, getUrl, createUrl, deleteUrl } from '../controllers/shortUrl.controllers'
+import { getAllUrl, getUrl, createUrl, deleteUrl } from '../controllers/shortUrl.controllers.js'
 
 const router = express.Router()
 

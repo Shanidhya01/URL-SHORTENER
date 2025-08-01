@@ -2,7 +2,7 @@
   "name": "url-shortener-api",
   "version": "1.0.0",
   "type": "module",
-  "main": "server.js",
+  "main": "index.ts",
   "scripts": {
     "build": "npx tsc",
     "start": "node ./dist/server.js",

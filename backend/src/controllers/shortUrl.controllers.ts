@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
 import { Request, Response } from 'express'
-import { ShortUrlModel } from '../models/ShortUrl.model'
-import { validateURL } from '../utils/validateUrl'
+import { ShortUrlModel } from '../models/ShortUrl.model.js'
+import { validateURL } from '../utils/validateUrl.js'
 
 // @description: Get all URLs
 // @route: /shortUrl

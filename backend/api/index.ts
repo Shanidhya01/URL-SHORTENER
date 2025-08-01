@@ -1,9 +1,9 @@
 import express from 'express'
 import dotenv from 'dotenv'
 import cors from 'cors'
-import connectDB from './config/dbConnection.js'
-import corsOptions from './config/corsOptions.js'
-import shortUrl from './routes/shortUrl.routes.js'
+import connectDB from '../src/config/dbConnection.js'
+import corsOptions from '../src/config/corsOptions.js'
+import shortUrl from '../src/routes/shortUrl.routes.js'
 
 // Making the environment variables available throughout the app
 dotenv.config()
