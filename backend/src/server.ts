@@ -19,6 +19,14 @@ app.use(express.urlencoded({ extended: true }))
 app.use(cors(corsOptions))
 app.use('/api/', shortUrl)
 
+
+
+// Health check route
+app.get("/", (req, res) => {
+  res.send("Backend server is running ✅");
+});
+
+
 /* SERVER LISTENER */
 app.listen(PORT, ()=> {
   connectDB() // Database connection invoked
