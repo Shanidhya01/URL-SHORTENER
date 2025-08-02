@@ -1,6 +1,6 @@
 import { UrlData } from '../../interface/UrlData';
-import { serverUrl } from '../../helpers/Constants';
-import axios from 'axios';
+import api from '../../helpers/api';
+import { backendUrl } from '../../helpers/Constants';
 import { FunctionComponent } from 'react';
 import { useState } from 'react';
 // Icons imports
@@ -37,7 +37,7 @@ const DataTable: FunctionComponent<IDataTableProps> = ({ data, refreshShortenedL
         {/* Short URL */}
         <td className="px-6 py-3 break-words max-w-xs">
           <a
-            href={`${serverUrl}/shortUrl/${item.shortUrl}`}
+            href={`${backendUrl}/api/shortUrl/${item.shortUrl}`}
             target="_blank"
             rel="noreferrer nonopener"
             className="font-semibold text-blue-400 hover:text-blue-600 transition-colors duration-200"
@@ -77,17 +77,13 @@ const DataTable: FunctionComponent<IDataTableProps> = ({ data, refreshShortenedL
   // Copying the URL to the clipboard
   const copyToClipboard = async (url: string)=> {
     try {
-      const fullShortUrl = `${serverUrl}/shortUrl/${url}`
+      const fullShortUrl = `${backendUrl}/api/shortUrl/${url}`
       await navigator.clipboard.writeText(fullShortUrl)
       setDeletedUrl(null)
       setCopiedUrl(fullShortUrl)
       setTimeout(()=> setCopiedUrl(null), 3000)
-    } catch(error: unknown) {
-      if(error instanceof Error) {
-        console.error(`Error while attempting to copy the URL: ${error.message}`)
-      } else {
-        console.error(`An unknown error occurred while attempting to copy the URL: ${error}`)
-      }
+    } catch(error: any) {
+      console.error('Error copying URL:', error);
     }
   }
 
@@ -95,21 +91,15 @@ const DataTable: FunctionComponent<IDataTableProps> = ({ data, refreshShortenedL
   const deleteUrl = async (id: string, url: string)=> {
     if(!window.confirm("Are you sure you want to delete this URL?")) return;
     try {
-      const fullShortUrl = `${serverUrl}/shortUrl/${id}`
-      const urlToDelete = `${serverUrl}/shortUrl/${url}`
+      const urlToDelete = `${backendUrl}/api/shortUrl/${url}`
       setCopiedUrl(null)
       setDeletedUrl(urlToDelete)
-      await axios.delete(fullShortUrl)
+      await api.delete(`/shortUrl/${id}`)
       setTimeout(()=> setDeletedUrl(null), 3000)
       refreshShortenedLinks()
-    } catch(error: unknown) {
-      if(axios.isAxiosError(error)) {
-        console.error(`Axios error while attempting to delete the URL: ${error.message || error}`)
-      } else if(error instanceof Error) {
-        console.error(`Error while attempting to delete the URL: ${error.message || error}`)
-      } else {
-        console.error(`An unknown error occurred while attempting to delete the URL: ${error}`)
-      }
+    } catch(error: any) {
+      console.error('Error deleting URL:', error);
+      setDeletedUrl(null);
     }
   }
 

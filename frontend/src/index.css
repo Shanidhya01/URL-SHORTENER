@@ -1,3 +1,56 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Modern forced colors mode support (replaces deprecated -ms-high-contrast) */
+@media (forced-colors: active) {
+  :root {
+    color-scheme: light dark;
+    forced-color-adjust: auto;
+  }
+  
+  /* Ensure proper contrast in forced colors mode */
+  * {
+    forced-color-adjust: auto;
+  }
+  
+  /* Override any custom colors that might not work in forced colors mode */
+  .bg-gradient-to-br,
+  .bg-gradient-to-r,
+  .bg-gradient-to-l,
+  [class*="bg-gradient"] {
+    background: ButtonFace !important;
+    color: ButtonText !important;
+  }
+  
+  /* Ensure buttons have proper forced colors */
+  button {
+    background: ButtonFace !important;
+    color: ButtonText !important;
+    border: 1px solid ButtonText !important;
+  }
+  
+  /* Ensure inputs have proper forced colors */
+  input {
+    background: Field !important;
+    color: FieldText !important;
+    border: 1px solid FieldText !important;
+  }
+}
+
+/* Suppress any remaining -ms-high-contrast rules */
+@supports (-ms-high-contrast: active) {
+  /* This block intentionally left empty to override any -ms-high-contrast rules */
+}
+
+/* Modern alternative to -ms-high-contrast */
+@media (prefers-contrast: high) {
+  :root {
+    --tw-bg-opacity: 1;
+    --tw-text-opacity: 1;
+  }
+  
+  * {
+    forced-color-adjust: auto;
+  }
+}

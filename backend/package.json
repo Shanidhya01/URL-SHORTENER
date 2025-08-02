@@ -2,11 +2,11 @@
   "name": "url-shortener-api",
   "version": "1.0.0",
   "type": "module",
-  "main": "index.ts",
+  "main": "server.js",
   "scripts": {
     "build": "npx tsc",
     "start": "node ./dist/server.js",
-    "dev": "nodemon src/dev-server.ts",
+    "dev": "nodemon src/server.ts",
     "vercel-build": "npx tsc"
   },
   "dependencies": {

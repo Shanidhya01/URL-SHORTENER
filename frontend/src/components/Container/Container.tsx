@@ -3,9 +3,9 @@ import { FunctionComponent, useState, useEffect } from 'react';
 // Components & utils imports
 import Form from '../Form/Form';
 import DataTable from '../DataTable/DataTable';
-import axios from 'axios';
+import api from '../../helpers/api';
 import { UrlData } from '../../interface/UrlData';
-import { serverUrl } from '../../helpers/Constants';
+import { backendUrl } from '../../helpers/Constants';
 
 
 const Container: FunctionComponent = () => {
@@ -18,20 +18,30 @@ const Container: FunctionComponent = () => {
     setLoading(true);
     setError(null);
     try {
-      const fetchResponse = await axios.get(`${serverUrl}/shortUrl`, { signal: controller?.signal });
+      console.log(`Attempting to fetch from backend: ${backendUrl}`);
+      
+      const fetchResponse = await api.get('/shortUrl', { 
+        signal: controller?.signal,
+      });
       const response = fetchResponse.data.shortUrls;
       setData(response || []);
-    } catch (error: unknown) {
-      if (axios.isAxiosError(error)) {
-        setError(`Axios error: ${error.message || error}`);
-        console.error(`Axios error while attempting to fetch the URLs list: ${error.message || error}`);
-      } else if (error instanceof Error) {
-        setError(`Error: ${error.message || error}`);
-        console.error(`Error while attempting to fetch the URLs list: ${error.message || error}`);
-      } else {
-        setError(`Unknown error: ${error}`);
-        console.error(`An unknown error occurred while attempting to fetch the URLs list: ${error}`);
+    } catch (error: any) {
+      let errorMessage = 'Failed to load URLs';
+      
+      if (error.code === 'ECONNABORTED') {
+        errorMessage = 'Request timeout - please check if the backend is running';
+      } else if (error.code === 'ERR_NETWORK') {
+        errorMessage = 'Network error - please check your internet connection and backend URL';
+      } else if (error.response) {
+        errorMessage = `Server error: ${error.response.status} - ${error.response.statusText}`;
+      } else if (error.request) {
+        errorMessage = `No response from server. Backend URL: ${backendUrl}`;
+      } else if (error.message) {
+        errorMessage = error.message;
       }
+      
+      setError(errorMessage);
+      console.error('Error fetching URLs:', error);
     } finally {
       setLoading(false);
     }

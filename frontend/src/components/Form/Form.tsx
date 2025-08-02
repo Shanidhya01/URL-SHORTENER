@@ -1,5 +1,4 @@
-import axios from 'axios'
-import { serverUrl } from '../../helpers/Constants';
+import api from '../../helpers/api';
 import { FunctionComponent, FormEvent, ChangeEvent } from 'react';
 import { useState } from 'react';
 
@@ -14,17 +13,25 @@ const Form: FunctionComponent<IFormProps> = ({ refreshShortenedLinks })=> {
   const handleSubmit = async (event: FormEvent<HTMLFormElement>)=> {
     event.preventDefault()
     try {
-      await axios.post(`${serverUrl}/shortUrl`, { fullUrl })
+      console.log('Submitting URL for shortening...');
+      await api.post('/shortUrl', { fullUrl })
       setFullUrl("")
       refreshShortenedLinks()
-    } catch(error: unknown) {
-      if(axios.isAxiosError(error)) {
-        console.error(`Axios error while attempting to submit the form: ${error.message || error}`)
-      } else if(error instanceof Error) {
-        console.error(`Error while attempting to submit the form: ${error.message || error}`)
-      } else {
-        console.error(`An unknown error ocurred while attempting to submit the form: ${error}`)
+    } catch(error: any) {
+      let errorMessage = 'Failed to shorten URL';
+      
+      if (error.code === 'ECONNABORTED') {
+        errorMessage = 'Request timeout - please try again';
+      } else if (error.code === 'ERR_NETWORK') {
+        errorMessage = 'Network error - please check your connection';
+      } else if (error.response) {
+        errorMessage = `Server error: ${error.response.status}`;
+      } else if (error.message) {
+        errorMessage = error.message;
       }
+      
+      console.error('Error submitting form:', error);
+      alert(errorMessage); // Show user-friendly error
     }
   }
 

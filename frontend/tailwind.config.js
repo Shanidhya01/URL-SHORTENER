@@ -12,4 +12,13 @@ export default {
     },
   },
   plugins: [],
+  corePlugins: {
+    // Disable features that might generate -ms-high-contrast
+    backdropFilter: true,
+    backgroundClip: true,
+  },
+  future: {
+    // Use future features that avoid legacy prefixes
+    hoverOnlyWhenSupported: true,
+  }
 }
